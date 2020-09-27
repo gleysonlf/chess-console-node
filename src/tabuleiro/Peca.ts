@@ -5,7 +5,7 @@ import Tabuleiro from "./Tabuleiro";
 export default abstract class Peca {
   protected cor!: Cor;
   protected qteMovimentos!: number;
-  posicao?: Posicao;
+  posicao!: Posicao;
   tab!: Tabuleiro; //public Tabuleiro tab { get; protected set; }
 
   constructor(tab: Tabuleiro, cor: Cor) {

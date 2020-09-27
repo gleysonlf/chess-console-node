@@ -1,5 +1,5 @@
-import Peca from "./Peca";
-import Posicao from "./Posicao";
+import Peca from './Peca';
+import Posicao from './Posicao';
 
 export default class Tabuleiro {
   linhas: number;
@@ -16,10 +16,26 @@ export default class Tabuleiro {
     return this.pecas[linha][coluna];
   }
 
+  public existePeca(posicao: Posicao): boolean {
+    this.validarPosicao(posicao);
+    return !!this.obterPeca(posicao.linha, posicao.coluna);
+  }
+
   public colocarPeca(peca: Peca, posicao: Posicao) {
-		this.validarPosicao(posicao);
+    if (this.existePeca(posicao)) {
+      throw new Error('Já existe uma peça nessa posição!');
+    }
     this.pecas[posicao.linha][posicao.coluna] = peca;
     peca.posicao = posicao;
+  }
+
+  public retirarPeca(posicao: Posicao): Peca {
+    let peca = this.obterPeca(posicao.linha, posicao.coluna);
+    if (peca) {
+      peca.posicao = null!;
+      this.pecas[posicao.linha][posicao.coluna] = null!;
+    }
+    return peca;
   }
 
   posicaoValida(posicao: Posicao): boolean {
@@ -35,10 +51,11 @@ export default class Tabuleiro {
     }
     return true;
   }
+
   validarPosicao(posicao: Posicao) {
     if (!this.posicaoValida(posicao)) {
-      console.error("Posição inválida!");
-      throw "Posição inválida!";
+      console.error('Posição inválida!');
+      throw 'Posição inválida!';
     }
   }
 }
